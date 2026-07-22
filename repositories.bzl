@@ -22,6 +22,16 @@ load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
 all_content = """filegroup(name = "all_srcs", srcs = glob(["**"]), visibility = ["//visibility:public"])"""
 
 def nexres_repositories():
+    # Declared here so the version is chosen deliberately. Abseil needs
+    # config_setting_group from lib/selects.bzl, which the skylib that
+    # protobuf 3.10 pins does not have; without this the build only works
+    # because rules_foreign_cc happens to register 1.0.3 first.
+    maybe(
+        http_archive,
+        name = "bazel_skylib",
+        sha256 = "1c531376ac7e5a180e0237938a2536de0c54d93f5c278634818e0efc952dd56c",
+        urls = ["https://github.com/bazelbuild/bazel-skylib/releases/download/1.0.3/bazel-skylib-1.0.3.tar.gz"],
+    )
     maybe(
         http_archive,
         name = "eEVM",
@@ -42,6 +52,7 @@ def nexres_repositories():
     maybe(
         http_archive,
         name = "com_github_nelhage_rules_boost",
+        sha256 = "5ea00abc70cdf396a23fb53201db19ebce2837d28887a08544429d27783309ed",
         strip_prefix = "rules_boost-96e9b631f104b43a53c21c87b01ac538ad6f3b48",
         url = "https://github.com/nelhage/rules_boost/archive/96e9b631f104b43a53c21c87b01ac538ad6f3b48.tar.gz",
     )
