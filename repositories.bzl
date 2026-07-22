@@ -56,8 +56,13 @@ def nexres_repositories():
     maybe(
         http_archive,
         name = "com_google_absl",
-        strip_prefix = "abseil-cpp-20211102.0",
-        urls = ["https://github.com/abseil/abseil-cpp/archive/refs/tags/20211102.0.zip"],
+        # 20250127.0 and newer select on @rules_cc//cc/compiler, which the
+        # rules_cc bundled with Bazel 6.0.0 does not provide, and fail during
+        # analysis. 20240722.2 builds with Bazel 6.0.0 and carries the
+        # <cstdint> includes that GCC 13+ requires.
+        sha256 = "f43db925dcfb480e49019f25094ba26ac9ff55b37ebeceff3637575b4b07b382",
+        strip_prefix = "abseil-cpp-20240722.2",
+        urls = ["https://github.com/abseil/abseil-cpp/archive/refs/tags/20240722.2.zip"],
     )
     maybe(
         http_archive,
@@ -87,7 +92,9 @@ def nexres_repositories():
         sha256 = "91844808532e5ce316b3c010929493c0244f3d37593afd6de04f71821d5136d9",
         strip_prefix = "zlib-1.2.12",
         urls = [
-            "https://zlib.net/zlib-1.2.12.tar.gz",
+            # zlib.net serves only the current release from the top level and
+            # moves older ones under fossils/, so the unprefixed URL 404s.
+            "https://zlib.net/fossils/zlib-1.2.12.tar.gz",
             "https://storage.googleapis.com/bazel-mirror/zlib.net/zlib-1.2.12.tar.gz",
         ],
     )
