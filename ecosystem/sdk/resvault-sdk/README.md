@@ -125,4 +125,4 @@ This will set up a complete React or Vue project (with TypeScript or JavaScript,
 
 ## License
 
-This project is licensed under the terms of the Apache 2.0 License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the terms of the Apache 2.0 License. See the [LICENSE](../../../LICENSE) file for details.
